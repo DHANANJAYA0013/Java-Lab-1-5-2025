@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Java Programs with Questions and Dynamic Input</title>
+  <style>
+    * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 2rem;
+  background-color: #f4f6f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+h1 {
+  color: #2e6da4;
+  font-size: 2rem;
+}
+
+h2 {
+  color: #0056b3;
+  font-size: 1.5rem;
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 1rem;
+  border-left: 4px solid #007acc;
+  overflow-x: auto;
+  border-radius: 5px;
+  font-size: 0.95rem;
+}
+
+.question {
+  background: #e3f2fd;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+strong {
+  display: block;
+  margin: 0.5rem 0;
+  color: #2a2a2a;
+  font-weight: bold;
+}
+
+.navbar {
+  background-color: #e8eaed;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.back-link {
+  text-decoration: none;
+  color: white;
+  background-color: #555;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  font-size: 1rem;
+}
+
+.back-link:hover {
+  background-color: #777;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  body {
+    padding: 1rem;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  pre {
+    font-size: 0.9rem;
+  }
+
+  .back-link {
+    font-size: 0.95rem;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="/index.html" class="back-link">← Back</a>
+  </div>
+
+  <h1>Assignment 1: Java Programs with Questions, Code & Output.</h1>
+
+  <div class="question">
+    <h2>1. Calculate Average Grade</h2>
+    <strong>Question:</strong>
+    Write a Java program that accepts marks for three subjects and calculates the average grade.
+    <pre>
+import java.util.Scanner;
+
+public class AverageGrade {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Enter marks for Subject 1: ");
+    int m1 = sc.nextInt();
+    System.out.print("Enter marks for Subject 2: ");
+    int m2 = sc.nextInt();
+    System.out.print("Enter marks for Subject 3: ");
+    int m3 = sc.nextInt();
+    double average = (m1 + m2 + m3) / 3.0;
+    System.out.println("Average Grade: " + average);
+  }
+}
+    </pre>
+    <strong>Sample Output:</strong>
+    Enter marks for Subject 1: 90<br>
+    Enter marks for Subject 2: 85<br>
+    Enter marks for Subject 3: 80<br>
+    Average Grade: 85.0
+  </div>
+
+  <div class="question">
+    <h2>2. BMI Calculator</h2>
+    <strong>Question:</strong>
+    Create a Java program to calculate Body Mass Index (BMI) based on height and weight provided by the user.
+    <pre>
+import java.util.Scanner;
+
+public class BMICalculator {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Enter weight in kg: ");
+    double weight = sc.nextDouble();
+    System.out.print("Enter height in meters: ");
+    double height = sc.nextDouble();
+    double bmi = weight / (height * height);
+    System.out.println("Your BMI is: " + bmi);
+  }
+}
+    </pre>
+    <strong>Sample Output:</strong>
+    Enter weight in kg: 70<br>
+    Enter height in meters: 1.75<br>
+    Your BMI is: 22.86
+  </div>
+
+  <div class="question">
+    <h2>3. Electricity Bill Calculator</h2>
+    <strong>Question:</strong>
+    Write a Java program to calculate the electricity bill for a user based on units consumed. Assume ₹5 per unit.
+    <pre>
+import java.util.Scanner;
+
+public class ElectricityBill {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Enter units consumed: ");
+    int units = sc.nextInt();
+    int bill = units * 5;
+    System.out.println("Electricity Bill: ₹" + bill);
+  }
+}
+    </pre>
+    <strong>Sample Output:</strong>
+    Enter units consumed: 150<br>
+    Electricity Bill: ₹750
+  </div>
+
+  <div class="question">
+    <h2>4. Currency Converter (USD to INR)</h2>
+    <strong>Question:</strong>
+    Develop a Java program to convert an amount from USD to INR based on a given exchange rate.
+    <pre>
+import java.util.Scanner;
+
+public class CurrencyConverter {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Enter amount in USD: ");
+    double usd = sc.nextDouble();
+    System.out.print("Enter exchange rate (1 USD to INR): ");
+    double rate = sc.nextDouble();
+    double inr = usd * rate;
+    System.out.println("Amount in INR: ₹" + inr);
+  }
+}
+    </pre>
+    <strong>Sample Output:</strong>
+    Enter amount in USD: 100<br>
+    Enter exchange rate: 83.5<br>
+    Amount in INR: ₹8350.0
+  </div>
+
+  <div class="question">
+    <h2>5. Voting Eligibility Checker</h2>
+    <strong>Question:</strong>
+    Write a Java program that checks if a person is eligible to vote. A person is eligible if they are 18 or older.
+    <pre>
+import java.util.Scanner;
+
+public class VotingEligibility {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Enter your age: ");
+    int age = sc.nextInt();
+    if (age >= 18) {
+      System.out.println("You are eligible to vote.");
+    } else {
+      System.out.println("You are not eligible to vote.");
+    }
+  }
+}
+    </pre>
+    <strong>Sample Output:</strong>
+    Enter your age: 20<br>
+    You are eligible to vote.
+  </div>
+
+  <div class="question">
+    <h2>6. Discount Calculator</h2>
+    <strong>Question:</strong>
+    Create a Java program to calculate the discounted price based on original price and discount percentage.
+    <pre>
+import java.util.Scanner;
+
+public class DiscountCalculator {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Enter original price: ");
+    double price = sc.nextDouble();
+    System.out.print("Enter discount percentage: ");
+    double discount = sc.nextDouble();
+    double discountedPrice = price - (price * discount / 100);
+    System.out.println("Discounted Price: ₹" + discountedPrice);
+  }
+}
+    </pre>
+    <strong>Sample Output:</strong>
+    Enter original price: 1000<br>
+    Enter discount percentage: 15<br>
+    Discounted Price: ₹850.0
+  </div>
+
+  <div class="question">
+    <h2>7. Simple Interest Calculator</h2>
+    <strong>Question:</strong>
+    Write a Java program to calculate simple interest given the principal amount, rate, and time in years.
+    <pre>
+import java.util.Scanner;
+
+public class SimpleInterest {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Enter principal: ");
+    double p = sc.nextDouble();
+    System.out.print("Enter rate of interest: ");
+    double r = sc.nextDouble();
+    System.out.print("Enter time in years: ");
+    double t = sc.nextDouble();
+    double si = (p * r * t) / 100;
+    System.out.println("Simple Interest: ₹" + si);
+  }
+}
+    </pre>
+    <strong>Sample Output:</strong>
+    Enter principal: 10000<br>
+    Enter rate of interest: 6<br>
+    Enter time in years: 2<br>
+    Simple Interest: ₹1200.0
+  </div>
+
+  <div class="question">
+    <h2>8. Number Guessing Game</h2>
+    <strong>Question:</strong>
+    Create a Java program where the user guesses a number between 1 and 10. Print a message accordingly.
+    <pre>
+import java.util.Scanner;
+
+public class NumberGuess {
+  public static void main(String[] args) {
+    int correctNumber = 7;
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Guess a number between 1 and 10: ");
+    int guess = sc.nextInt();
+    if (guess == correctNumber) {
+      System.out.println("You guessed it!");
+    } else {
+      System.out.println("Wrong! The correct number was " + correctNumber);
+    }
+  }
+}
+    </pre>
+    <strong>Sample Output:</strong>
+    Guess a number between 1 and 10: 4<br>
+    Wrong! The correct number was 7
+  </div>
+
+  <div class="question">
+    <h2>9. Palindrome Checker</h2>
+    <strong>Question:</strong>
+    Write a Java program that checks whether a given string (e.g., "madam") is a palindrome.
+    <pre>
+import java.util.Scanner;
+
+public class PalindromeChecker {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Enter a word: ");
+    String word = sc.nextLine();
+    String reversed = new StringBuilder(word).reverse().toString();
+    if (word.equalsIgnoreCase(reversed)) {
+      System.out.println("It is a palindrome.");
+    } else {
+      System.out.println("It is not a palindrome.");
+    }
+  }
+}
+    </pre>
+    <strong>Sample Output:</strong>
+    Enter a word: madam<br>
+    It is a palindrome.
+  </div>
+
+  <div class="question">
+    <h2>10. Library Fine Calculator</h2>
+    <strong>Question:</strong>
+    Develop a Java program that calculates the fine for returning a book late. Fine is ₹10 per day.
+    <pre>
+import java.util.Scanner;
+
+public class LibraryFine {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Enter number of late days: ");
+    int days = sc.nextInt();
+    int fine = days * 10;
+    System.out.println("Total fine: ₹" + fine);
+  }
+}
+    </pre>
+    <strong>Sample Output:</strong>
+    Enter number of late days: 3<br>
+    Total fine: ₹30
+  </div>
+
+</body>
+</html>

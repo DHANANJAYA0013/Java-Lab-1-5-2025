@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Java Programs with Questions</title>
+    <style>
+        * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f4f6f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    h1 {
+      color: #2e6da4;
+      font-size: 2rem;
+    }
+    
+    h2 {
+      color: #0056b3;
+      font-size: 1.5rem;
+    }
+    
+    pre {
+      background: #f0f0f0;
+      padding: 1rem;
+      border-left: 4px solid #007acc;
+      overflow-x: auto;
+      border-radius: 5px;
+      font-size: 0.95rem;
+    }
+    
+    .question {
+      background: #e3f2fd;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    strong {
+      display: block;
+      margin: 0.5rem 0;
+      color: #2a2a2a;
+      font-weight: bold;
+    }
+    
+    .navbar {
+      background-color: #e8eaed;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .back-link {
+      text-decoration: none;
+      color: white;
+      background-color: #555;
+      padding: 0.6rem 1rem;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+      font-size: 1rem;
+    }
+    
+    .back-link:hover {
+      background-color: #777;
+    }
+    
+    /* Mobile responsiveness */
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+    
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    
+      h1 {
+        font-size: 1.5rem;
+      }
+    
+      h2 {
+        font-size: 1.25rem;
+      }
+    
+      pre {
+        font-size: 0.9rem;
+      }
+    
+      .back-link {
+        font-size: 0.95rem;
+      }
+    }
+      </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="/index.html" class="back-link">← Back</a>
+  </div>
+
+    <h1>Assignment 3: Java Programs with Questions, Code & Output</h1>
+
+    <div class="question">
+        <h2>1. Circle Class with Radius Attribute</h2>
+        <strong>Question:</strong>
+        Write a Java program to create a class called "Circle" with a radius attribute. You can access and modify this attribute. Calculate the area and circumference of the circle.
+        <pre>
+class Circle {
+    private double radius;
+
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    public double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+
+    public double calculateCircumference() {
+        return 2 * Math.PI * radius;
+    }
+
+    public static void main(String[] args) {
+        Circle circle = new Circle(5.0);
+        System.out.println("Radius: " + circle.getRadius());
+        System.out.println("Area: " + circle.calculateArea());
+        System.out.println("Circumference: " + circle.calculateCircumference());
+    }
+}
+        </pre>
+        <strong>Sample Input:</strong><br>
+        Radius = 5<br>
+        <strong>Sample Output:</strong><br>
+        Radius: 5.0<br>
+        Area: 78.53981633974483<br>
+        Circumference: 31.41592653589793
+    </div>
+
+    <div class="question">
+        <h2>2. TrafficLight Class with Color and Duration</h2>
+        <strong>Question:</strong>
+        Write a Java program to create a class called "TrafficLight" with attributes for color and duration, and methods to change the color and check for red or green.
+        <pre>
+class TrafficLight {
+    private String color;
+    private int duration;
+
+    public TrafficLight(String color, int duration) {
+        this.color = color;
+        this.duration = duration;
+    }
+
+    public void changeColor(String newColor) {
+        this.color = newColor;
+    }
+
+    public boolean isRed() {
+        return this.color.equalsIgnoreCase("Red");
+    }
+
+    public boolean isGreen() {
+        return this.color.equalsIgnoreCase("Green");
+    }
+
+    public void displayTrafficLight() {
+        System.out.println("Current Color: " + color);
+        System.out.println("Duration: " + duration + " seconds");
+    }
+
+    public static void main(String[] args) {
+        TrafficLight trafficLight = new TrafficLight("Red", 60);
+        trafficLight.displayTrafficLight();
+        trafficLight.changeColor("Green");
+        trafficLight.displayTrafficLight();
+        System.out.println("Is it red? " + trafficLight.isRed());
+        System.out.println("Is it green? " + trafficLight.isGreen());
+    }
+}
+        </pre>
+        <strong>Sample Input:</strong><br>
+        Color = Red, Duration = 60<br>
+        <strong>Sample Output:</strong><br>
+        Current Color: Red<br>
+        Duration: 60 seconds<br>
+        Current Color: Green<br>
+        Duration: 60 seconds<br>
+        Is it red? false<br>
+        Is it green? true
+    </div>
+
+    <div class="question">
+        <h2>3. Constructor Chaining in Java</h2>
+        <strong>Question:</strong>
+        Implement a Java program to demonstrate constructor chaining.
+        <pre>
+class Animal {
+    public Animal() {
+        System.out.println("Animal is created");
+    }
+}
+
+class Dog extends Animal {
+    public Dog() {
+        super();
+        System.out.println("Dog is created");
+    }
+
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Animal is created<br>
+        Dog is created
+    </div>
+
+    <div class="question">
+        <h2>4. Vehicle Class with Constructor Overloading</h2>
+        <strong>Question:</strong>
+        Create a Java class "Vehicle" to store vehicle details. Implement constructor overloading to register vehicles with different levels of information:
+        - A constructor that accepts only vehicle model.
+        - A constructor that accepts vehicle model and manufacturer name.
+        - A constructor that accepts vehicle model, manufacturer name, and registration number.
+        <pre>
+class Vehicle {
+    private String model;
+    private String manufacturer;
+    private String registrationNumber;
+
+    public Vehicle(String model) {
+        this.model = model;
+    }
+
+    public Vehicle(String model, String manufacturer) {
+        this.model = model;
+        this.manufacturer = manufacturer;
+    }
+
+    public Vehicle(String model, String manufacturer, String registrationNumber) {
+        this.model = model;
+        this.manufacturer = manufacturer;
+        this.registrationNumber = registrationNumber;
+    }
+
+    public void displayDetails() {
+        System.out.println("Model: " + model);
+        System.out.println("Manufacturer: " + manufacturer);
+        System.out.println("Registration Number: " + registrationNumber);
+    }
+
+    public static void main(String[] args) {
+        Vehicle vehicle1 = new Vehicle("Model X");
+        Vehicle vehicle2 = new Vehicle("Model Y", "Manufacturer A");
+        Vehicle vehicle3 = new Vehicle("Model Z", "Manufacturer B", "123XYZ");
+
+        vehicle1.displayDetails();
+        vehicle2.displayDetails();
+        vehicle3.displayDetails();
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Model: Model X<br>
+        Manufacturer: null<br>
+        Registration Number: null<br>
+        Model: Model Y<br>
+        Manufacturer: Manufacturer A<br>
+        Registration Number: null<br>
+        Model: Model Z<br>
+        Manufacturer: Manufacturer B<br>
+        Registration Number: 123XYZ
+    </div>
+
+    <div class="question">
+        <h2>5. Library Book Management System</h2>
+        <strong>Question:</strong>
+        Develop a Java program for a Library Book Management System where users can add book details. Create a "Book" class with attributes like title, author, and price. Implement a mechanism to take user input using either a constructor or a separate method to initialize book details.
+        <pre>
+import java.util.Scanner;
+
+class Book {
+    private String title;
+    private String author;
+    private double price;
+
+    public Book(String title, String author, double price) {
+        this.title = title;
+        this.author = author;
+        this.price = price;
+    }
+
+    public void displayBookDetails() {
+        System.out.println("Title: " + title);
+        System.out.println("Author: " + author);
+        System.out.println("Price: ₹" + price);
+    }
+
+    public void getBookDetails() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter book title: ");
+        this.title = sc.nextLine();
+        System.out.print("Enter book author: ");
+        this.author = sc.nextLine();
+        System.out.print("Enter book price: ");
+        this.price = sc.nextDouble();
+    }
+
+    public static void main(String[] args) {
+        Book book1 = new Book("Java Programming", "John Doe", 500);
+        book1.displayBookDetails();
+
+        Book book2 = new Book("", "", 0);
+        book2.getBookDetails();
+        book2.displayBookDetails();
+    }
+}
+        </pre>
+        <strong>Sample Input:</strong><br>
+        Book Title = "Java Programming"<br>
+        Book Author = "John Doe"<br>
+        Price = 500<br>
+        <strong>Sample Output:</strong><br>
+        Title: Java Programming<br>
+        Author: John Doe<br>
+        Price: ₹500.0<br>
+        Title: (User input)<br>
+        Author: (User input)<br>
+        Price: (User input)
+    </div>
+
+    <div class="question">
+        <h2>6. Entrance Exam Registration System</h2>
+        <strong>Question:</strong>
+        Write a Java program for an Entrance Exam Registration System that allows students to register with varying details.
+        <pre>
+class Candidate {
+    private String name;
+    private String applicationNumber;
+    private String examCenter;
+
+    public void registerCandidate(String name, String applicationNumber) {
+        this.name = name;
+        this.applicationNumber = applicationNumber;
+        System.out.println("Candidate Registered: " + name + " | Application Number: " + applicationNumber);
+    }
+
+    public void registerCandidate(String name, String applicationNumber, String examCenter) {
+        this.name = name;
+        this.applicationNumber = applicationNumber;
+        this.examCenter = examCenter;
+        System.out.println("Candidate Registered: " + name + " | Application Number: " + applicationNumber + " | Exam Center: " + examCenter);
+    }
+
+    public void displayDetails() {
+        System.out.println("Name: " + name);
+        System.out.println("Application Number: " + applicationNumber);
+        System.out.println("Exam Center: " + (examCenter != null ? examCenter : "Not Provided"));
+    }
+
+    public static void main(String[] args) {
+        Candidate candidate1 = new Candidate();
+        candidate1.registerCandidate("Alice", "A123");
+        candidate1.displayDetails();
+
+        Candidate candidate2 = new Candidate();
+        candidate2.registerCandidate("Bob", "B456", "New York");
+        candidate2.displayDetails();
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Candidate Registered: Alice | Application Number: A123<br>
+        Candidate Registered: Bob | Application Number: B456 | Exam Center: New York
+    </div>
+
+</body>
+</html>

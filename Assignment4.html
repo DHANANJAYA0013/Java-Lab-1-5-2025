@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Programs with Questions</title>
+    <style>
+        * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f4f6f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    h1 {
+      color: #2e6da4;
+      font-size: 2rem;
+    }
+    
+    h2 {
+      color: #0056b3;
+      font-size: 1.5rem;
+    }
+    
+    pre {
+      background: #f0f0f0;
+      padding: 1rem;
+      border-left: 4px solid #007acc;
+      overflow-x: auto;
+      border-radius: 5px;
+      font-size: 0.95rem;
+    }
+    
+    .question {
+      background: #e3f2fd;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    strong {
+      display: block;
+      margin: 0.5rem 0;
+      color: #2a2a2a;
+      font-weight: bold;
+    }
+    
+    .navbar {
+      background-color: #e8eaed;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .back-link {
+      text-decoration: none;
+      color: white;
+      background-color: #555;
+      padding: 0.6rem 1rem;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+      font-size: 1rem;
+    }
+    
+    .back-link:hover {
+      background-color: #777;
+    }
+    
+    /* Mobile responsiveness */
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+    
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    
+      h1 {
+        font-size: 1.5rem;
+      }
+    
+      h2 {
+        font-size: 1.25rem;
+      }
+    
+      pre {
+        font-size: 0.9rem;
+      }
+    
+      .back-link {
+        font-size: 0.95rem;
+      }
+    }
+      </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="/index.html" class="back-link">← Back</a>
+  </div>
+
+    <h1>Assignment 4: Java Programs with Questions, Code & Output</h1>
+
+    <!-- Program 1 -->
+    <div class="question">
+        <h2>1. Reverse a Given String Using StringBuilder</h2>
+        <strong>Question:</strong>
+        Write a Java program to reverse a given string using StringBuilder.
+        <pre>
+class ReverseString {
+    public static void main(String[] args) {
+        String str = "Hello World!";
+        StringBuilder sb = new StringBuilder(str);
+        sb.reverse();
+        System.out.println("Reversed String: " + sb);
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Reversed String: !dlroW olleH
+    </div>
+
+    <!-- Program 2 -->
+    <div class="question">
+        <h2>2. Count Vowels and Consonants in a String</h2>
+        <strong>Question:</strong>
+        Create a program that counts and prints the number of vowels and consonants in a given string.
+        <pre>
+class CountVowelsConsonants {
+    public static void main(String[] args) {
+        String str = "Hello World";
+        int vowels = 0, consonants = 0;
+        str = str.toLowerCase();
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if (ch >= 'a' && ch <= 'z') {
+                if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+                    vowels++;
+                } else {
+                    consonants++;
+                }
+            }
+        }
+        System.out.println("Vowels: " + vowels);
+        System.out.println("Consonants: " + consonants);
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Vowels: 3<br>
+        Consonants: 7
+    </div>
+
+    <!-- Program 3 -->
+    <div class="question">
+        <h2>3. Check if Two Strings are Anagrams</h2>
+        <strong>Question:</strong>
+        Write a program to check if two strings are anagrams of each other (contain the same characters in a different order).
+        <pre>
+import java.util.Arrays;
+
+class AnagramCheck {
+    public static void main(String[] args) {
+        String str1 = "listen";
+        String str2 = "silent";
+        char[] arr1 = str1.toCharArray();
+        char[] arr2 = str2.toCharArray();
+        
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
+        
+        if (Arrays.equals(arr1, arr2)) {
+            System.out.println("The strings are anagrams.");
+        } else {
+            System.out.println("The strings are not anagrams.");
+        }
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        The strings are anagrams.
+    </div>
+
+    <!-- Program 4 -->
+    <div class="question">
+        <h2>4. Abstract Class Shape with Area Calculation</h2>
+        <strong>Question:</strong>
+        Design an abstract class Shape with an abstract method area(). Implement two concrete classes Circle and Rectangle that compute and return their respective areas.
+        <pre>
+abstract class Shape {
+    abstract double area();
+}
+
+class Circle extends Shape {
+    private double radius;
+
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    public double area() {
+        return Math.PI * radius * radius;
+    }
+}
+
+class Rectangle extends Shape {
+    private double length, width;
+
+    public Rectangle(double length, double width) {
+        this.length = length;
+        this.width = width;
+    }
+
+    public double area() {
+        return length * width;
+    }
+}
+
+class TestShape {
+    public static void main(String[] args) {
+        Shape circle = new Circle(5.0);
+        Shape rectangle = new Rectangle(4.0, 6.0);
+
+        System.out.println("Circle Area: " + circle.area());
+        System.out.println("Rectangle Area: " + rectangle.area());
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Circle Area: 78.53981633974483<br>
+        Rectangle Area: 24.0
+    </div>
+
+    <!-- Program 5 -->
+    <div class="question">
+        <h2>5. Abstract Class Vehicle with Start Method</h2>
+        <strong>Question:</strong>
+        Create an abstract class Vehicle with an abstract method start(). Implement Car and Bike classes that override start() to display different starting mechanisms.
+        <pre>
+abstract class Vehicle {
+    abstract void start();
+}
+
+class Car extends Vehicle {
+    void start() {
+        System.out.println("Car started with a key.");
+    }
+}
+
+class Bike extends Vehicle {
+    void start() {
+        System.out.println("Bike started with a kick.");
+    }
+}
+
+class TestVehicle {
+    public static void main(String[] args) {
+        Vehicle vehicle1 = new Car();
+        Vehicle vehicle2 = new Bike();
+
+        vehicle1.start();
+        vehicle2.start();
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Car started with a key.<br>
+        Bike started with a kick.
+    </div>
+
+    <!-- Program 6 -->
+    <div class="question">
+        <h2>6. Abstract Class BankAccount with AccountType</h2>
+        <strong>Question:</strong>
+        Implement an abstract class BankAccount with an abstract method accountType(). Derive SavingsAccount and CurrentAccount classes that provide their own implementation of accountType().
+        <pre>
+abstract class BankAccount {
+    abstract void accountType();
+}
+
+class SavingsAccount extends BankAccount {
+    void accountType() {
+        System.out.println("This is a Savings Account.");
+    }
+}
+
+class CurrentAccount extends BankAccount {
+    void accountType() {
+        System.out.println("This is a Current Account.");
+    }
+}
+
+class TestAccount {
+    public static void main(String[] args) {
+        BankAccount account1 = new SavingsAccount();
+        BankAccount account2 = new CurrentAccount();
+
+        account1.accountType();
+        account2.accountType();
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        This is a Savings Account.<br>
+        This is a Current Account.
+    </div>
+
+    <!-- Program 7 -->
+    <div class="question">
+        <h2>7. Person and Employee - Demonstrating Single Inheritance</h2>
+        <strong>Question:</strong>
+        Implement a Person class with attributes name and age. Create a subclass Employee that adds an employeeId attribute and a method to display employee details. Demonstrate single inheritance.
+        <pre>
+class Person {
+    String name;
+    int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+
+class Employee extends Person {
+    String employeeId;
+
+    public Employee(String name, int age, String employeeId) {
+        super(name, age);
+        this.employeeId = employeeId;
+    }
+
+    void displayDetails() {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+        System.out.println("Employee ID: " + employeeId);
+    }
+}
+
+class TestEmployee {
+    public static void main(String[] args) {
+        Employee emp = new Employee("Alice", 30, "E123");
+        emp.displayDetails();
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Name: Alice<br>
+        Age: 30<br>
+        Employee ID: E123
+    </div>
+
+    <!-- Program 8 -->
+    <div class="question">
+        <h2>8. Animal, Mammal, and Dog - Demonstrating Multilevel Inheritance</h2>
+        <strong>Question:</strong>
+        Design a class hierarchy where Animal is the base class, Mammal is derived from Animal, and Dog is derived from Mammal. Show how multilevel inheritance works.
+        <pre>
+class Animal {
+    void makeSound() {
+        System.out.println("Animal makes sound");
+    }
+}
+
+class Mammal extends Animal {
+    void walk() {
+        System.out.println("Mammal walks");
+    }
+}
+
+class Dog extends Mammal {
+    void bark() {
+        System.out.println("Dog barks");
+    }
+}
+
+class TestInheritance {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.makeSound();
+        dog.walk();
+        dog.bark();
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Animal makes sound<br>
+        Mammal walks<br>
+        Dog barks
+    </div>
+
+    <!-- Program 9 -->
+    <div class="question">
+        <h2>9. Dynamic Method Dispatch in Shape Classes</h2>
+        <strong>Question:</strong>
+        Write a program to demonstrate dynamic method dispatch where a base class Shape has a method draw(), and derived classes Circle and Rectangle override draw(). Use a parent class reference to call overridden methods.
+        <pre>
+class Shape {
+    void draw() {
+        System.out.println("Drawing a shape");
+    }
+}
+
+class Circle extends Shape {
+    void draw() {
+        System.out.println("Drawing a circle");
+    }
+}
+
+class Rectangle extends Shape {
+    void draw() {
+        System.out.println("Drawing a rectangle");
+    }
+}
+
+class TestShape {
+    public static void main(String[] args) {
+        Shape shape1 = new Circle();
+        Shape shape2 = new Rectangle();
+
+        shape1.draw();
+        shape2.draw();
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Drawing a circle<br>
+        Drawing a rectangle
+    </div>
+
+    <!-- Program 10 -->
+    <div class="question">
+        <h2>10. Payment Class and Method Overriding</h2>
+        <strong>Question:</strong>
+        Create a Payment class with a method processPayment(). Derive CreditCardPayment and PayPalPayment classes that override processPayment(). Show how dynamic method dispatch works using a parent class reference.
+        <pre>
+class Payment {
+    void processPayment() {
+        System.out.println("Processing payment");
+    }
+}
+
+class CreditCardPayment extends Payment {
+    void processPayment() {
+        System.out.println("Processing credit card payment");
+    }
+}
+
+class PayPalPayment extends Payment {
+    void processPayment() {
+        System.out.println("Processing PayPal payment");
+    }
+}
+
+class TestPayment {
+    public static void main(String[] args) {
+        Payment payment1 = new CreditCardPayment();
+        Payment payment2 = new PayPalPayment();
+
+        payment1.processPayment();
+        payment2.processPayment();
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Processing credit card payment<br>
+        Processing PayPal payment
+    </div>
+
+    <!-- Program 11 -->
+    <div class="question">
+        <h2>11. Demonstrate Runtime Polymorphism with Animal Sound</h2>
+        <strong>Question:</strong>
+        Demonstrate runtime polymorphism by creating an Animal class with a makeSound() method. Derive Dog and Cat classes that override makeSound(). Call the overridden methods using a base class reference.
+        <pre>
+class Animal {
+    void makeSound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    void makeSound() {
+        System.out.println("Dog barks");
+    }
+}
+
+class Cat extends Animal {
+    void makeSound() {
+        System.out.println("Cat meows");
+    }
+}
+
+class TestPolymorphism {
+    public static void main(String[] args) {
+        Animal animal1 = new Dog();
+        Animal animal2 = new Cat();
+
+        animal1.makeSound();
+        animal2.makeSound();
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Dog barks<br>
+        Cat meows
+    </div>
+
+    <!-- Program 12 -->
+    <div class="question">
+        <h2>12. Calculate Interest for Different Types of Loans</h2>
+        <strong>Question:</strong>
+        Write a Java program that calculates interest for different types of loans. Create a base class Loan with a method getInterestRate(), and derive HomeLoan and CarLoan classes that override getInterestRate(). Show runtime polymorphism by calling overridden methods using a base class reference.
+        <pre>
+class Loan {
+    double getInterestRate() {
+        return 0;
+    }
+}
+
+class HomeLoan extends Loan {
+    double getInterestRate() {
+        return 5.0;
+    }
+}
+
+class CarLoan extends Loan {
+    double getInterestRate() {
+        return 7.0;
+    }
+}
+
+class TestLoan {
+    public static void main(String[] args) {
+        Loan loan1 = new HomeLoan();
+        Loan loan2 = new CarLoan();
+
+        System.out.println("Home Loan Interest Rate: " + loan1.getInterestRate() + "%");
+        System.out.println("Car Loan Interest Rate: " + loan2.getInterestRate() + "%");
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Home Loan Interest Rate: 5.0%<br>
+        Car Loan Interest Rate: 7.0%
+    </div>
+
+    <!-- Program 13 -->
+    <div class="question">
+        <h2>13. Super Keyword for Calling Parent Class Method</h2>
+        <strong>Question:</strong>
+        Create a parent class Animal with a method makeSound(). Override this method in a child class Dog and use super.makeSound() to call the parent class method.
+        <pre>
+class Animal {
+    void makeSound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    void makeSound() {
+        super.makeSound();  // Calling parent class method
+        System.out.println("Dog barks");
+    }
+}
+
+class TestSuper {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.makeSound();
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Animal makes a sound<br>
+        Dog barks
+    </div>
+
+    <!-- Program 14 -->
+    <div class="question">
+        <h2>14. Use of Super Keyword with Instance Variables</h2>
+        <strong>Question:</strong>
+        Write a program where a parent class Person has an instance variable name, and a child class Employee has its own name variable. Use super.name to differentiate between them.
+        <pre>
+class Person {
+    String name = "John";
+
+    void display() {
+        System.out.println("Person Name: " + name);
+    }
+}
+
+class Employee extends Person {
+    String name = "Alice";
+
+    void display() {
+        super.display();  // Calling parent class method
+        System.out.println("Employee Name: " + name);
+    }
+}
+
+class TestSuper {
+    public static void main(String[] args) {
+        Employee emp = new Employee();
+        emp.display();
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Person Name: John<br>
+        Employee Name: Alice
+    </div>
+
+    <!-- Program 15 -->
+    <div class="question">
+        <h2>15. Demonstrate Super Keyword in Constructor Chaining</h2>
+        <strong>Question:</strong>
+        A supermarket has general employees and cashiers. Each employee has a name and an employee ID, while a cashier has an additional attribute for the cash register number. Write a Java program to demonstrate the use of the super keyword to call a parent class constructor from a child class constructor.
+        <pre>
+class Employee {
+    String name;
+    String employeeId;
+
+    public Employee(String name, String employeeId) {
+        this.name = name;
+        this.employeeId = employeeId;
+    }
+
+    void display() {
+        System.out.println("Employee Name: " + name);
+        System.out.println("Employee ID: " + employeeId);
+    }
+}
+
+class Cashier extends Employee {
+    String registerNumber;
+
+    public Cashier(String name, String employeeId, String registerNumber) {
+        super(name, employeeId);  // Calling parent class constructor
+        this.registerNumber = registerNumber;
+    }
+
+    void display() {
+        super.display();  // Calling parent class method
+        System.out.println("Register Number: " + registerNumber);
+    }
+}
+
+class TestEmployee {
+    public static void main(String[] args) {
+        Cashier cashier = new Cashier("Alice", "E123", "R01");
+        cashier.display();
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Employee Name: Alice<br>
+        Employee ID: E123<br>
+        Register Number: R01
+    </div>
+
+    <!-- Program 16 -->
+    <div class="question">
+        <h2>16. Count Number of Objects Created using Static Variable</h2>
+        <strong>Question:</strong>
+        Create a Java program to demonstrate the use of a static variable to count the number of objects created from a class.
+        <pre>
+class ObjectCounter {
+    static int count = 0;
+
+    public ObjectCounter() {
+        count++;
+    }
+
+    static void displayCount() {
+        System.out.println("Total objects created: " + count);
+    }
+}
+
+class TestCounter {
+    public static void main(String[] args) {
+        ObjectCounter obj1 = new ObjectCounter();
+        ObjectCounter obj2 = new ObjectCounter();
+        ObjectCounter obj3 = new ObjectCounter();
+        
+        ObjectCounter.displayCount();  // Accessing static method
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Total objects created: 3
+    </div>
+
+    <!-- Program 17 -->
+    <div class="question">
+        <h2>17. Static Method to Calculate Square of a Number</h2>
+        <strong>Question:</strong>
+        Create a Java program to demonstrate a static method that calculates the square of a number without creating an object of the class.
+        <pre>
+class MathUtility {
+    static int square(int number) {
+        return number * number;
+    }
+}
+
+class TestMathUtility {
+    public static void main(String[] args) {
+        int result = MathUtility.square(5);  // Calling static method without object
+        System.out.println("Square of 5: " + result);
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Square of 5: 25
+    </div>
+
+    <!-- Program 18 -->
+    <div class="question">
+        <h2>18. Static Block in Java</h2>
+        <strong>Question:</strong>
+        Demonstrate the use of a static block that executes before the main method in a Java program.
+        <pre>
+class StaticBlockExample {
+    static {
+        System.out.println("Static block executed before main method.");
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Main method executed.");
+    }
+}
+
+class TestStaticBlock {
+    public static void main(String[] args) {
+        StaticBlockExample.main(args);
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Static block executed before main method.<br>
+        Main method executed.
+    </div>
+
+    <!-- Program 19 -->
+    <div class="question">
+        <h2>19. Static Method Accessing Static and Non-Static Variables</h2>
+        <strong>Question:</strong>
+        Implement a program where a static method accesses both static and non-static variables.
+        <pre>
+class Example {
+    static int staticVar = 10;
+    int nonStaticVar = 20;
+
+    static void display() {
+        System.out.println("Static variable: " + staticVar);
+        // System.out.println("Non-static variable: " + nonStaticVar);  // Error: Cannot access non-static variable
+    }
+
+    void show() {
+        System.out.println("Non-static variable: " + nonStaticVar);
+    }
+}
+
+class TestExample {
+    public static void main(String[] args) {
+        Example example = new Example();
+        example.show();
+        Example.display();  // Calling static method
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Non-static variable: 20<br>
+        Static variable: 10
+    </div>
+
+    <!-- Program 20 -->
+    <div class="question">
+        <h2>20. Static Nested Class in Java</h2>
+        <strong>Question:</strong>
+        Create a static nested class inside an outer class and demonstrate how it can be accessed without creating an instance of the outer class.
+        <pre>
+class OuterClass {
+    static int outerStaticVar = 30;
+
+    static class NestedClass {
+        void display() {
+            System.out.println("Static nested class accessing outer static variable: " + outerStaticVar);
+        }
+    }
+}
+
+class TestNestedClass {
+    public static void main(String[] args) {
+        OuterClass.NestedClass nestedObj = new OuterClass.NestedClass();
+        nestedObj.display();
+    }
+}
+        </pre>
+        <strong>Sample Output:</strong><br>
+        Static nested class accessing outer static variable: 30
+    </div>
+</body>
+</html>
+

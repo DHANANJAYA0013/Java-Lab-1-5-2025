@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Java Web Server Assignment</title>
+  <style>
+    :root {
+  --bg-color: #ffffff;
+  --text-color: #222222;
+  --card-bg: #f4f4f4;
+  --button-bg: #3498db;
+  --button-hover: #2980b9;
+}
+
+[data-theme="dark"] {
+  --bg-color: #1c1c1c;
+  --text-color: #f4f4f4;
+  --card-bg: #2a2a2a;
+  --button-bg: #3b82f6;
+  --button-hover: #2563eb;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 5rem 1rem 6rem;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background-color: var(--card-bg);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.theme-toggle {
+  cursor: pointer;
+  font-size: 1.5rem;
+  user-select: none;
+}
+
+.logo {
+  font-size: 5rem;
+  margin: 6rem 0 1rem;
+  text-align: center;
+}
+
+.container {
+  background-color: var(--card-bg);
+  padding: 1.25rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+}
+
+h1 {
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+}
+
+.button {
+  display: inline-block;
+  margin: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: var(--button-bg);
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: var(--button-hover);
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+  padding: 0.75rem 0;
+  background-color: var(--card-bg);
+  font-size: 0.9rem;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.scroll-container {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.scroll-text {
+  display: inline-block;
+  padding-right: 100%;
+  animation: scroll-right 20s linear infinite;
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ✅ Responsive Enhancements */
+@media (max-width: 768px) {
+  header {
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .logo {
+    font-size: 4rem;
+    margin: 5rem 0 1rem;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .button {
+    font-size: 0.95rem;
+    padding: 0.6rem 1.2rem;
+  }
+
+  footer {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 3rem;
+    margin: 4rem 0 0.5rem;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  .button {
+    width: 100%;
+    max-width: 300px;
+    display: block;
+    margin: 0.5rem auto;
+  }
+}
+
+  </style>
+</head>
+<body data-theme="dark">
+  <header>
+    <div>Welcome to My Java Lab Assignment</div>
+    <div class="theme-toggle" onclick="toggleTheme()">☀️</div>
+  </header>
+
+  <div class="logo">🧑‍💻</div>
+
+  <div class="container">
+    <h1>Choose an Option</h1>
+    <a href="/Assignment1.html" class="button">Assignment 1 🖥️🔎</a>
+    <a href="/Assignment2.html" class="button">Assignment 2 🖥️🔎</a>
+    <a href="/Assignment3.html" class="button">Assignment 3 🖥️🔎</a>
+    <a href="/Assignment4.html" class="button">Assignment 4 🖥️🔎</a>
+    <a href="/Assignment5.html" class="button">Assignment 5 🖥️🔎</a>
+
+    <!-- <a href="memory-game" class="button">Memory Game 🧠</a>
+    <a href="calculator" class="button">Calculator 🧮</a> -->
+  </div>
+
+  <footer>
+    <div class="scroll-container">
+      <div class="scroll-text">🚀 Java Lab Assignment 2025 ✨</div>
+    </div>
+  </footer>
+
+  <script>
+    const toggleIcon = document.querySelector('.theme-toggle');
+    const body = document.body;
+
+    function toggleTheme() {
+      const current = body.getAttribute('data-theme');
+      const next = current === 'light' ? 'dark' : 'light';
+      body.setAttribute('data-theme', next);
+      toggleIcon.textContent = next === 'light' ? '🌙' : '☀️';
+    }
+  </script>
+</body>
+</html>

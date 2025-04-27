@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Java Programs with Questions and Dynamic Input</title>
+  <style>
+    * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 2rem;
+  background-color: #f4f6f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+h1 {
+  color: #2e6da4;
+  font-size: 2rem;
+}
+
+h2 {
+  color: #0056b3;
+  font-size: 1.5rem;
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 1rem;
+  border-left: 4px solid #007acc;
+  overflow-x: auto;
+  border-radius: 5px;
+  font-size: 0.95rem;
+}
+
+.question {
+  background: #e3f2fd;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+strong {
+  display: block;
+  margin: 0.5rem 0;
+  color: #2a2a2a;
+  font-weight: bold;
+}
+
+.navbar {
+  background-color: #e8eaed;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.back-link {
+  text-decoration: none;
+  color: white;
+  background-color: #555;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  font-size: 1rem;
+}
+
+.back-link:hover {
+  background-color: #777;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  body {
+    padding: 1rem;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  pre {
+    font-size: 0.9rem;
+  }
+
+  .back-link {
+    font-size: 0.95rem;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="/index.html" class="back-link">← Back</a>
+  </div>
+
+  <h1>Assignment 2: Java Programs with Questions, Code & Output</h1>
+
+  <div class="question">
+    <h2>1. Array Rotation (Left or Right by a specified number of positions)</h2>
+    <strong>Question:</strong>
+    Write a Java program to rotate an array to the left or right by a specified number of positions.
+    <pre>
+import java.util.Scanner;
+
+public class ArrayRotation {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input: Array, number of positions, and direction
+        System.out.print("Enter the number of positions to rotate: ");
+        int positions = sc.nextInt();
+        System.out.print("Enter the direction (Left/Right): ");
+        String direction = sc.next();
+
+        int[] arr = {1, 2, 3, 4, 5, 6, 7};
+
+        System.out.println("Original Array: ");
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+
+        // Perform rotation
+        if (direction.equalsIgnoreCase("Left")) {
+            rotateLeft(arr, positions);
+        } else if (direction.equalsIgnoreCase("Right")) {
+            rotateRight(arr, positions);
+        } else {
+            System.out.println("Invalid direction input.");
+        }
+
+        System.out.println("Rotated Array: ");
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+    }
+
+    // Rotate array to the left by 'positions' places
+    private static void rotateLeft(int[] arr, int positions) {
+        int len = arr.length;
+        int[] temp = new int[len];
+        for (int i = 0; i < len; i++) {
+            temp[i] = arr[(i + positions) % len];
+        }
+        System.arraycopy(temp, 0, arr, 0, len);
+    }
+
+    // Rotate array to the right by 'positions' places
+    private static void rotateRight(int[] arr, int positions) {
+        int len = arr.length;
+        int[] temp = new int[len];
+        for (int i = 0; i < len; i++) {
+            temp[i] = arr[(i - positions + len) % len];
+        }
+        System.arraycopy(temp, 0, arr, 0, len);
+    }
+}
+    </pre>
+    <strong>Sample Input:</strong><br>
+    Array: {1, 2, 3, 4, 5, 6, 7}<br>
+    Number of positions: 2<br>
+    Direction: Left<br>
+    <strong>Sample Output:</strong><br>
+    Rotated Array: [3, 4, 5, 6, 7, 1, 2]
+  </div>
+
+  <div class="question">
+    <h2>2. Find the Missing Number in a Sequence</h2>
+    <strong>Question:</strong>
+    Write a Java program to find the missing number in a sequence of integers from 1 to N.
+    <pre>
+public class MissingNumber {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 4, 5, 6};
+        int n = 6; // Range from 1 to 6
+
+        int expectedSum = (n * (n + 1)) / 2;
+        int actualSum = 0;
+
+        for (int num : arr) {
+            actualSum += num;
+        }
+
+        int missingNumber = expectedSum - actualSum;
+        System.out.println("Missing Number: " + missingNumber);
+    }
+}
+    </pre>
+    <strong>Sample Input:</strong><br>
+    Array: {1, 2, 4, 5, 6}<br>
+    Range: 1 to 6<br>
+    <strong>Sample Output:</strong><br>
+    Missing Number: 3
+  </div>
+
+  <div class="question">
+    <h2>3. Find All Pairs in an Array Whose Sum Equals a Given Target</h2>
+    <strong>Question:</strong>
+    Write a Java program to find all pairs in an array whose sum equals a given target.
+    <pre>
+import java.util.HashSet;
+
+public class PairSum {
+    public static void main(String[] args) {
+        int[] arr = {2, 4, 3, 5, 7, 8, 1};
+        int target = 9;
+
+        System.out.println("Pairs with sum " + target + ":");
+        HashSet<Integer> set = new HashSet<>();
+
+        for (int num : arr) {
+            int complement = target - num;
+            if (set.contains(complement)) {
+                System.out.println("(" + num + ", " + complement + ")");
+            }
+            set.add(num);
+        }
+    }
+}
+    </pre>
+    <strong>Sample Input:</strong><br>
+    Array: {2, 4, 3, 5, 7, 8, 1}<br>
+    Target Sum: 9<br>
+    <strong>Sample Output:</strong><br>
+    Pairs with sum 9:<br>
+    (4, 5)<br>
+    (2, 7)<br>
+    (8, 1)
+  </div>
+
+  <div class="question">
+    <h2>4. Traffic Light System Using Switch Statement</h2>
+    <strong>Question:</strong>
+    Write a Java program to simulate a traffic light system using a switch statement. The program should display messages based on the color (Red, Yellow, Green).
+    <pre>
+import java.util.Scanner;
+
+public class TrafficLight {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        // Input: Traffic Light Color
+        System.out.print("Enter the traffic light color (Red/Yellow/Green): ");
+        String color = sc.nextLine();
+
+        switch (color.toLowerCase()) {
+            case "red":
+                System.out.println("STOP! Wait until the light turns green.");
+                break;
+            case "yellow":
+                System.out.println("GET READY! The light is about to turn green.");
+                break;
+            case "green":
+                System.out.println("GO! You can proceed.");
+                break;
+            default:
+                System.out.println("Invalid color.");
+        }
+    }
+}
+    </pre>
+    <strong>Sample Input:</strong><br>
+    Traffic Light Color: Red<br>
+    <strong>Sample Output:</strong><br>
+    STOP! Wait until the light turns green.
+  </div>
+
+  <div class="question">
+    <h2>5. Income Tax Calculation Based on Salary</h2>
+    <strong>Question:</strong>
+    Write a Java program to calculate the income tax of an employee based on the following slabs:<br>
+    - Income <= 2,50,000: No tax<br>
+    - Income <= 5,00,000: 5%<br>
+    - Income <= 10,00,000: 20%<br>
+    - Income > 10,00,000: 30%<br>
+    <pre>
+import java.util.Scanner;
+
+public class IncomeTax {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input: Salary
+        System.out.print("Enter your salary: ");
+        double salary = sc.nextDouble();
+
+        double tax = 0;
+
+        if (salary <= 250000) {
+            tax = 0;
+        } else if (salary <= 500000) {
+            tax = (salary - 250000) * 0.05;
+        } else if (salary <= 1000000) {
+            tax = (250000 * 0.05) + (salary - 500000) * 0.20;
+        } else {
+            tax = (250000 * 0.05) + (500000 * 0.20) + (salary - 1000000) * 0.30;
+        }
+
+        System.out.println("Income Tax to be paid: ₹" + tax);
+    }
+}
+    </pre>
+    <strong>Sample Input:</strong><br>
+    Salary: 8,50,000<br>
+    <strong>Sample Output:</strong><br>
+    Income Tax to be paid: ₹85,000
+  </div>
+
+</body>
+</html>
