@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Management System - Java JDBC</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f4f6f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #2e6da4;
+      font-size: 2rem;
+    }
+    h2 {
+      color: #0056b3;
+      font-size: 1.5rem;
+    }
+    pre {
+      background: #f0f0f0;
+      padding: 1rem;
+      border-left: 4px solid #007acc;
+      overflow-x: auto;
+      border-radius: 5px;
+      font-size: 0.95rem;
+    }
+    .question {
+      background: #e3f2fd;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    strong {
+      display: block;
+      margin: 0.5rem 0;
+      color: #2a2a2a;
+      font-weight: bold;
+    }
+    .navbar {
+      background-color: #e8eaed;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .back-link {
+      text-decoration: none;
+      color: white;
+      background-color: #555;
+      padding: 0.6rem 1rem;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+      font-size: 1rem;
+    }
+    .back-link:hover {
+      background-color: #777;
+    }
+    /* Mobile responsiveness */
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+      h2 {
+        font-size: 1.25rem;
+      }
+      pre {
+        font-size: 0.9rem;
+      }
+      .back-link {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <a href="index.html" class="back-link">← Back</a>
+  </div>
+
+  <h1>Assignment 7: Java Programs with Questions, Code & Output</h1>
+
+  <div class="question">
+    <h2>1. Design a BankAccount Class with Subclasses</h2>
+    <strong>Question:</strong>
+    Design a BankAccount class with attributes like account number, balance, and methods for deposit, withdrawal, and balance inquiry. Create subclasses SavingsAccount and CheckingAccount with specific features (e.g., interest calculations for savings, overdraft protection for checking). Utilize inheritance to share common code and polymorphism to handle different account types dynamically. Implement exception handling for potential errors (e.g., insufficient funds for withdrawal).
+
+    <h3>Code:</h3>
+    <pre>
+    // BankAccount.java
+    public class BankAccount {
+        protected String accountNumber;
+        protected double balance;
+
+        public BankAccount(String accountNumber, double balance) {
+            this.accountNumber = accountNumber;
+            this.balance = balance;
+        }
+
+        public void deposit(double amount) {
+            if (amount > 0) {
+                balance += amount;
+                System.out.println("Deposited: " + amount);
+            } else {
+                System.out.println("Invalid deposit amount.");
+            }
+        }
+
+        public void withdraw(double amount) throws Exception {
+            if (amount <= 0) {
+                throw new Exception("Withdrawal amount must be greater than zero.");
+            }
+            if (balance >= amount) {
+                balance -= amount;
+                System.out.println("Withdrew: " + amount);
+            } else {
+                throw new Exception("Insufficient funds for withdrawal.");
+            }
+        }
+
+        public double getBalance() {
+            return balance;
+        }
+
+        public void displayBalance() {
+            System.out.println("Account Balance: " + balance);
+        }
+    }
+
+    // SavingsAccount.java
+    public class SavingsAccount extends BankAccount {
+        private double interestRate;
+
+        public SavingsAccount(String accountNumber, double balance, double interestRate) {
+            super(accountNumber, balance);
+            this.interestRate = interestRate;
+        }
+
+        public void applyInterest() {
+            double interest = balance * interestRate / 100;
+            balance += interest;
+            System.out.println("Interest applied: " + interest);
+        }
+
+        @Override
+        public void displayBalance() {
+            super.displayBalance();
+            System.out.println("Interest Rate: " + interestRate + "%");
+        }
+    }
+
+    // CheckingAccount.java
+    public class CheckingAccount extends BankAccount {
+        private double overdraftLimit;
+
+        public CheckingAccount(String accountNumber, double balance, double overdraftLimit) {
+            super(accountNumber, balance);
+            this.overdraftLimit = overdraftLimit;
+        }
+
+        @Override
+        public void withdraw(double amount) throws Exception {
+            if (amount <= 0) {
+                throw new Exception("Withdrawal amount must be greater than zero.");
+            }
+            if (balance + overdraftLimit >= amount) {
+                balance -= amount;
+                System.out.println("Withdrew: " + amount);
+            } else {
+                throw new Exception("Insufficient funds and overdraft limit reached.");
+            }
+        }
+
+        @Override
+        public void displayBalance() {
+            super.displayBalance();
+            System.out.println("Overdraft Limit: " + overdraftLimit);
+        }
+    }
+
+    // Main.java (Client-side code)
+    public class Main {
+        public static void main(String[] args) {
+            try {
+                BankAccount savings = new SavingsAccount("SA12345", 1000.0, 5.0);
+                savings.deposit(200.0);
+                ((SavingsAccount) savings).applyInterest();
+                savings.displayBalance();
+
+                BankAccount checking = new CheckingAccount("CA12345", 500.0, 200.0);
+                checking.withdraw(600.0);
+                checking.displayBalance();
+
+                checking.withdraw(200.0);
+                checking.displayBalance();
+
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+    }
+    </pre>
+
+    <strong>Sample Output:</strong>
+    <div class="output">
+      Deposited: 200.0<br>
+      Interest applied: 60.0<br>
+      Account Balance: 1260.0<br>
+      Interest Rate: 5.0%<br><br>
+
+      Withdrew: 600.0<br>
+      Account Balance: -100.0<br>
+      Overdraft Limit: 200.0<br><br>
+
+      Withdrew: 200.0<br>
+      Account Balance: -300.0<br>
+      Overdraft Limit: 200.0
+    </div>
+  </div>
+    
+  <div class="question">
+    <h2>2. Design an Abstract Class Shape with Subclasses</h2>
+    <strong>Question:</strong>
+    Create an abstract class Shape with abstract methods for calculating area and perimeter. Implement concrete subclasses Rectangle, Circle, and Triangle that inherit from Shape and provide specific formulas for their respective calculations. Demonstrate the use of abstract classes to define a contract for subclasses and enforce encapsulation.
+
+    <h3>Code:</h3>
+    <pre>
+    // Shape.java (Abstract Class)
+    abstract class Shape {
+        // Abstract methods to calculate area and perimeter
+        public abstract double calculateArea();
+        public abstract double calculatePerimeter();
+    }
+
+    // Rectangle.java (Subclass of Shape)
+    class Rectangle extends Shape {
+        private double length;
+        private double width;
+
+        // Constructor for Rectangle
+        public Rectangle(double length, double width) {
+            this.length = length;
+            this.width = width;
+        }
+
+        // Implementing the calculateArea method for Rectangle
+        @Override
+        public double calculateArea() {
+            return length * width;
+        }
+
+        // Implementing the calculatePerimeter method for Rectangle
+        @Override
+        public double calculatePerimeter() {
+            return 2 * (length + width);
+        }
+    }
+
+    // Circle.java (Subclass of Shape)
+    class Circle extends Shape {
+        private double radius;
+
+        // Constructor for Circle
+        public Circle(double radius) {
+            this.radius = radius;
+        }
+
+        // Implementing the calculateArea method for Circle
+        @Override
+        public double calculateArea() {
+            return Math.PI * radius * radius;
+        }
+
+        // Implementing the calculatePerimeter method for Circle
+        @Override
+        public double calculatePerimeter() {
+            return 2 * Math.PI * radius;
+        }
+    }
+
+    // Triangle.java (Subclass of Shape)
+    class Triangle extends Shape {
+        private double side1, side2, side3;
+        private double height;
+
+        // Constructor for Triangle
+        public Triangle(double side1, double side2, double side3, double height) {
+            this.side1 = side1;
+            this.side2 = side2;
+            this.side3 = side3;
+            this.height = height;
+        }
+
+        // Implementing the calculateArea method for Triangle
+        @Override
+        public double calculateArea() {
+            return 0.5 * side1 * height;
+        }
+
+        // Implementing the calculatePerimeter method for Triangle
+        @Override
+        public double calculatePerimeter() {
+            return side1 + side2 + side3;
+        }
+    }
+
+    // Main.java (Client-side code)
+    public class Main {
+        public static void main(String[] args) {
+            // Creating objects for each shape
+            Shape rectangle = new Rectangle(10, 5);
+            Shape circle = new Circle(7);
+            Shape triangle = new Triangle(3, 4, 5, 4);
+
+            // Displaying the area and perimeter for each shape
+            System.out.println("Rectangle:");
+            System.out.println("Area: " + rectangle.calculateArea());
+            System.out.println("Perimeter: " + rectangle.calculatePerimeter());
+
+            System.out.println("\nCircle:");
+            System.out.println("Area: " + circle.calculateArea());
+            System.out.println("Perimeter: " + circle.calculatePerimeter());
+
+            System.out.println("\nTriangle:");
+            System.out.println("Area: " + triangle.calculateArea());
+            System.out.println("Perimeter: " + triangle.calculatePerimeter());
+        }
+    }
+    </pre>
+
+    <strong>Sample Output:</strong>
+    <div class="output">
+      Rectangle:<br>
+      Area: 50.0<br>
+      Perimeter: 30.0<br><br>
+
+      Circle:<br>
+      Area: 153.93804002589985<br>
+      Perimeter: 43.982297150257104<br><br>
+
+      Triangle:<br>
+      Area: 6.0<br>
+      Perimeter: 12.0
+    </div>
+  </div>
+
+
+  <div class="question">
+    <h2>3. Design a program that deliberately generates different types of exceptions (e.g., ArithmeticException, NullPointerException, IndexOutOfBoundsException). Implement try-catch blocks to handle each exception type gracefully, providing informative error messages and preventing program crashes. Explore the use of finally blocks to ensure essential code like closing resources is executed regardless of exceptions.</h2>
+    
+    <strong>Question:</strong>
+    <p>Write a program that demonstrates exception handling by deliberately generating different types of exceptions such as <code>ArithmeticException</code>, <code>NullPointerException</code>, and <code>IndexOutOfBoundsException</code>. Use <code>try-catch</code> blocks to handle the exceptions and <code>finally</code> block to ensure essential cleanup tasks are executed.</p>
+  
+    <h3>Code:</h3>
+    <pre>
+  public class ExceptionHandlingDemo {
+      public static void main(String[] args) {
+          // Demonstrate ArithmeticException
+          try {
+              System.out.println("Demonstrating ArithmeticException:");
+              int result = 10 / 0;  // Division by zero, will throw ArithmeticException
+          } catch (ArithmeticException e) {
+              System.out.println("Error: Cannot divide by zero!");
+          } finally {
+              System.out.println("Finally block executed after ArithmeticException handling.\n");
+          }
+  
+          // Demonstrate NullPointerException
+          try {
+              System.out.println("Demonstrating NullPointerException:");
+              String str = null;
+              int length = str.length();  // Attempting to call method on null object
+          } catch (NullPointerException e) {
+              System.out.println("Error: Trying to access method on a null object!");
+          } finally {
+              System.out.println("Finally block executed after NullPointerException handling.\n");
+          }
+  
+          // Demonstrate IndexOutOfBoundsException
+          try {
+              System.out.println("Demonstrating IndexOutOfBoundsException:");
+              int[] arr = {1, 2, 3};
+              int outOfBoundsValue = arr[5];  // Index 5 is out of bounds for this array
+          } catch (IndexOutOfBoundsException e) {
+              System.out.println("Error: Array index is out of bounds!");
+          } finally {
+              System.out.println("Finally block executed after IndexOutOfBoundsException handling.\n");
+          }
+  
+          // Demonstrate multiple exceptions in a single try-catch block
+          try {
+              System.out.println("Demonstrating multiple exceptions:");
+              // Will cause NullPointerException
+              String text = null;
+              System.out.println(text.length()); // Attempting to access method on a null string
+  
+              // Will cause ArithmeticException
+              int num = 5 / 0; // Division by zero
+          } catch (NullPointerException | ArithmeticException e) {
+              System.out.println("Error: Caught a common exception - " + e.getClass().getSimpleName());
+          } finally {
+              System.out.println("Finally block executed after multiple exceptions handling.\n");
+          }
+  
+          System.out.println("Program executed without crashing due to exception handling.");
+      }
+  }
+    </pre>
+  
+    <strong>Sample Output:</strong>
+    <p>Demonstrating ArithmeticException:<br>
+    Error: Cannot divide by zero!<br>
+    Finally block executed after ArithmeticException handling.</p>
+    <p>Demonstrating NullPointerException:<br>
+    Error: Trying to access method on a null object!<br>
+    Finally block executed after NullPointerException handling.</p>
+    <p>Demonstrating IndexOutOfBoundsException:<br>
+    Error: Array index is out of bounds!<br>
+    Finally block executed after IndexOutOfBoundsException handling.</p>
+    <p>Demonstrating multiple exceptions:<br>
+    Error: Caught a common exception - NullPointerException<br>
+    Finally block executed after multiple exceptions handling.</p>
+    <p>Program executed without crashing due to exception handling.</p>
+  </div>
+
+  <div class="question">
+    <h2>4. Bank Account with Custom Exception Handling</h2>
+    <strong>Question:</strong>
+    Write a JAVA program which has a Class called Account that creates an account 
+    with a minimum balance of 500Rs, a deposit() method to deposit amount, a 
+    withdraw() method to withdraw amount and also throws a LessBalanceException 
+    if an account holder tries to withdraw money that will make the balance go below 500Rs. 
+    A Class called LessBalanceException which returns the statement saying that 
+    the withdraw amount (Rs) is not valid. A Class which creates 2 accounts, both accounts 
+    deposit money and one account tries to withdraw more money which generates a LessBalanceException 
+    and take appropriate action for the same.
+    
+    <strong>Code:</strong>
+    <pre>
+    // LessBalanceException class to handle the exception when withdrawal is invalid.
+    class LessBalanceException extends Exception {
+        public LessBalanceException(String message) {
+            super(message);
+        }
+    }
+  
+    // Account class that holds account details and methods for deposit and withdrawal.
+    class Account {
+        private String accountHolderName;
+        private double balance;
+  
+        // Constructor to initialize account with a minimum balance of 500 Rs.
+        public Account(String accountHolderName) {
+            this.accountHolderName = accountHolderName;
+            this.balance = 500;  // Minimum balance in account is 500 Rs.
+        }
+  
+        // Method to deposit amount into the account.
+        public void deposit(double amount) {
+            if (amount > 0) {
+                balance += amount;
+                System.out.println(amount + " Rs deposited. New balance: " + balance + " Rs.");
+            } else {
+                System.out.println("Deposit amount must be positive!");
+            }
+        }
+  
+        // Method to withdraw amount from the account, throws LessBalanceException if balance goes below 500.
+        public void withdraw(double amount) throws LessBalanceException {
+            if (amount <= 0) {
+                System.out.println("Withdrawal amount must be positive!");
+                return;
+            }
+  
+            if (balance - amount >= 500) {
+                balance -= amount;
+                System.out.println(amount + " Rs withdrawn. New balance: " + balance + " Rs.");
+            } else {
+                throw new LessBalanceException("Withdrawal of " + amount + " Rs is not valid. Insufficient balance.");
+            }
+        }
+  
+        // Method to display account details
+        public void displayAccountDetails() {
+            System.out.println("Account holder: " + accountHolderName);
+            System.out.println("Current balance: " + balance + " Rs.");
+        }
+    }
+  
+    // Main class to create accounts and test deposit and withdrawal functionality.
+    public class BankAccountDemo {
+        public static void main(String[] args) {
+            // Creating two account instances
+            Account account1 = new Account("John Doe");
+            Account account2 = new Account("Jane Smith");
+  
+            // Displaying initial account details
+            account1.displayAccountDetails();
+            account2.displayAccountDetails();
+  
+            // Depositing money into both accounts
+            account1.deposit(2000);  // Depositing money into account 1
+            account2.deposit(1500);  // Depositing money into account 2
+  
+            // Trying to withdraw money from account 1 and account 2
+            try {
+                account1.withdraw(1800); // This should be valid
+                account2.withdraw(1200); // This should be valid
+                account2.withdraw(2000); // This should throw LessBalanceException
+            } catch (LessBalanceException e) {
+                System.out.println(e.getMessage()); // Catching the LessBalanceException
+            }
+  
+            // Displaying final account details
+            account1.displayAccountDetails();
+            account2.displayAccountDetails();
+        }
+    }
+    </pre>
+  
+    <strong>Sample Output:</strong>
+    <pre>
+    Account holder: John Doe
+    Current balance: 500.0 Rs.
+    Account holder: Jane Smith
+    Current balance: 500.0 Rs.
+    2000.0 Rs deposited. New balance: 2500.0 Rs.
+    1500.0 Rs deposited. New balance: 2000.0 Rs.
+    1800.0 Rs withdrawn. New balance: 700.0 Rs.
+    1200.0 Rs withdrawn. New balance: 800.0 Rs.
+    Withdrawal of 2000.0 Rs is not valid. Insufficient balance.
+    Account holder: John Doe
+    Current balance: 700.0 Rs.
+    Account holder: Jane Smith
+    Current balance: 800.0 Rs.
+    </pre>
+  </div>
+
+  <div class="question">
+    <h2>5. Custom Exceptions for Employee Validation</h2>
+    <strong>Question:</strong>
+    Create a user-defined exception called EmpCodeException, BasicException, 
+    and JobException which will be thrown when empcode is not of 5 characters 
+    and should consist of at least one capital letter and a minimum of one digit, 
+    basic is not between 2000 and 7000, and if job is not "manager", "analyst", 
+    or "clerk" with appropriate error message. In an executable class accept empcode, 
+    ename, job, and basic. Validate the input and if invalid data is entered, 
+    throw the respective exception and accept the respective data once again. 
+    Calculate DA, HRA, net, and display the details.
+    
+    <strong>Code:</strong>
+    <pre>
+    // User-defined exception for invalid employee code
+    class EmpCodeException extends Exception {
+        public EmpCodeException(String message) {
+            super(message);
+        }
+    }
+  
+    // User-defined exception for invalid basic salary
+    class BasicException extends Exception {
+        public BasicException(String message) {
+            super(message);
+        }
+    }
+  
+    // User-defined exception for invalid job type
+    class JobException extends Exception {
+        public JobException(String message) {
+            super(message);
+        }
+    }
+  
+    // Employee class to accept and validate input, and calculate DA, HRA, net salary
+    class Employee {
+        private String empCode;
+        private String empName;
+        private String job;
+        private double basicSalary;
+  
+        // Method to validate empCode
+        public void setEmpCode(String empCode) throws EmpCodeException {
+            if (empCode.length() != 5 || !empCode.matches(".*[A-Z].*") || !empCode.matches(".*\\d.*")) {
+                throw new EmpCodeException("EmpCode must be 5 characters long, contain at least one uppercase letter, and at least one digit.");
+            }
+            this.empCode = empCode;
+        }
+  
+        // Method to validate basic salary
+        public void setBasicSalary(double basicSalary) throws BasicException {
+            if (basicSalary < 2000 || basicSalary > 7000) {
+                throw new BasicException("Basic salary must be between 2000 and 7000.");
+            }
+            this.basicSalary = basicSalary;
+        }
+  
+        // Method to validate job type
+        public void setJob(String job) throws JobException {
+            if (!job.equalsIgnoreCase("manager") && !job.equalsIgnoreCase("analyst") && !job.equalsIgnoreCase("clerk")) {
+                throw new JobException("Job must be either 'manager', 'analyst', or 'clerk'.");
+            }
+            this.job = job;
+        }
+  
+        // Method to calculate DA, HRA, and net salary
+        public void calculateSalary() {
+            double da = 0.1 * basicSalary;  // 10% DA
+            double hra = 0.2 * basicSalary; // 20% HRA
+            double netSalary = basicSalary + da + hra;  // net salary = basic + DA + HRA
+            
+            // Display the calculated details
+            System.out.println("Employee Details:");
+            System.out.println("EmpCode: " + empCode);
+            System.out.println("Name: " + empName);
+            System.out.println("Job: " + job);
+            System.out.println("Basic Salary: " + basicSalary);
+            System.out.println("DA: " + da);
+            System.out.println("HRA: " + hra);
+            System.out.println("Net Salary: " + netSalary);
+        }
+  
+        // Method to input employee details
+        public void inputDetails() {
+            java.util.Scanner sc = new java.util.Scanner(System.in);
+            boolean valid = false;
+  
+            // Accept empCode, empName, job, and basic salary from the user
+            while (!valid) {
+                try {
+                    System.out.print("Enter Employee Code (5 characters with at least one capital letter and one digit): ");
+                    setEmpCode(sc.next());
+                    
+                    System.out.print("Enter Employee Name: ");
+                    empName = sc.next();
+                    
+                    System.out.print("Enter Job (manager/analyst/clerk): ");
+                    setJob(sc.next());
+                    
+                    System.out.print("Enter Basic Salary (between 2000 and 7000): ");
+                    setBasicSalary(sc.nextDouble());
+  
+                    valid = true;
+                } catch (EmpCodeException | BasicException | JobException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+    }
+  
+    // Main class to run the program
+    public class EmployeeValidation {
+        public static void main(String[] args) {
+            Employee emp = new Employee();
+            emp.inputDetails();
+            emp.calculateSalary();
+        }
+    }
+    </pre>
+  
+    <strong>Sample Output:</strong>
+    <pre>
+    Enter Employee Code (5 characters with at least one capital letter and one digit): E1234
+    Enter Employee Name: John
+    Enter Job (manager/analyst/clerk): manager
+    Enter Basic Salary (between 2000 and 7000): 4500
+    Employee Details:
+    EmpCode: E1234
+    Name: John
+    Job: manager
+    Basic Salary: 4500.0
+    DA: 450.0
+    HRA: 900.0
+    Net Salary: 5850.0
+    </pre>
+  </div>
+
+  
+  <div class="question">
+    <h2>6. Shopping Cart with Product Class</h2>
+    <strong>Question:</strong>
+    Design a class `Product` with attributes like name, price, and quantity. Create a 
+    `ShoppingCart` class that uses an ArrayList to store `Product` objects. Implement 
+    methods for adding, removing, and modifying items in the cart. Encapsulate product 
+    attributes and cart operations to ensure data integrity and controlled access.
+  
+    <strong>Code:</strong>
+    <pre>
+    // Product class to represent individual products
+    class Product {
+        private String name;
+        private double price;
+        private int quantity;
+  
+        // Constructor to initialize product attributes
+        public Product(String name, double price, int quantity) {
+            this.name = name;
+            this.price = price;
+            this.quantity = quantity;
+        }
+  
+        // Getter and Setter methods
+        public String getName() {
+            return name;
+        }
+  
+        public void setName(String name) {
+            this.name = name;
+        }
+  
+        public double getPrice() {
+            return price;
+        }
+  
+        public void setPrice(double price) {
+            this.price = price;
+        }
+  
+        public int getQuantity() {
+            return quantity;
+        }
+  
+        public void setQuantity(int quantity) {
+            this.quantity = quantity;
+        }
+  
+        // Method to calculate total price of the product based on quantity
+        public double getTotalPrice() {
+            return price * quantity;
+        }
+  
+        // Method to display product details
+        public void displayProduct() {
+            System.out.println("Product: " + name + ", Price: " + price + ", Quantity: " + quantity + ", Total Price: " + getTotalPrice());
+        }
+    }
+  
+    // ShoppingCart class to manage products in the cart
+    import java.util.ArrayList;
+  
+    class ShoppingCart {
+        private ArrayList<Product> cart;
+  
+        // Constructor to initialize the shopping cart
+        public ShoppingCart() {
+            cart = new ArrayList<Product>();
+        }
+  
+        // Method to add a product to the cart
+        public void addProduct(Product product) {
+            cart.add(product);
+            System.out.println(product.getName() + " has been added to your shopping cart.");
+        }
+  
+        // Method to remove a product from the cart
+        public void removeProduct(String productName) {
+            boolean found = false;
+            for (Product product : cart) {
+                if (product.getName().equalsIgnoreCase(productName)) {
+                    cart.remove(product);
+                    System.out.println(productName + " has been removed from your shopping cart.");
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                System.out.println("Product not found in the cart.");
+            }
+        }
+  
+        // Method to modify the quantity of a product in the cart
+        public void modifyProductQuantity(String productName, int newQuantity) {
+            boolean found = false;
+            for (Product product : cart) {
+                if (product.getName().equalsIgnoreCase(productName)) {
+                    product.setQuantity(newQuantity);
+                    System.out.println("Quantity of " + productName + " has been updated to " + newQuantity);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                System.out.println("Product not found in the cart.");
+            }
+        }
+  
+        // Method to display all products in the cart
+        public void displayCart() {
+            if (cart.isEmpty()) {
+                System.out.println("Your shopping cart is empty.");
+            } else {
+                System.out.println("\nProducts in your cart:");
+                for (Product product : cart) {
+                    product.displayProduct();
+                }
+            }
+        }
+  
+        // Method to get the total price of all products in the cart
+        public double getTotalCartPrice() {
+            double total = 0;
+            for (Product product : cart) {
+                total += product.getTotalPrice();
+            }
+            return total;
+        }
+    }
+  
+    // Main class to test the ShoppingCart functionality
+    public class ShoppingCartTest {
+        public static void main(String[] args) {
+            // Creating a shopping cart
+            ShoppingCart cart = new ShoppingCart();
+  
+            // Creating some product objects
+            Product product1 = new Product("Laptop", 800.00, 1);
+            Product product2 = new Product("Smartphone", 500.00, 2);
+            Product product3 = new Product("Headphones", 100.00, 3);
+  
+            // Adding products to the cart
+            cart.addProduct(product1);
+            cart.addProduct(product2);
+            cart.addProduct(product3);
+  
+            // Display the contents of the cart
+            cart.displayCart();
+  
+            // Modify the quantity of a product
+            cart.modifyProductQuantity("Smartphone", 3);
+  
+            // Remove a product from the cart
+            cart.removeProduct("Headphones");
+  
+            // Display the updated cart
+            cart.displayCart();
+  
+            // Get the total price of items in the cart
+            System.out.println("Total cart price: " + cart.getTotalCartPrice());
+        }
+    }
+    </pre>
+  
+    <strong>Sample Output:</strong>
+    <pre>
+    Laptop has been added to your shopping cart.
+    Smartphone has been added to your shopping cart.
+    Headphones has been added to your shopping cart.
+  
+    Products in your cart:
+    Product: Laptop, Price: 800.0, Quantity: 1, Total Price: 800.0
+    Product: Smartphone, Price: 500.0, Quantity: 2, Total Price: 1000.0
+    Product: Headphones, Price: 100.0, Quantity: 3, Total Price: 300.0
+  
+    Quantity of Smartphone has been updated to 3
+    Headphones has been removed from your shopping cart.
+  
+    Products in your cart:
+    Product: Laptop, Price: 800.0, Quantity: 1, Total Price: 800.0
+    Product: Smartphone, Price: 500.0, Quantity: 3, Total Price: 1500.0
+  
+    Total cart price: 2300.0
+    </pre>
+  </div>
+
+  
+  <div class="content">
+    <h2>7. Chat Application Using Threads (Client-Server) in Java</h2>
+    <div class="question">
+        <h3>Question:</h3>
+        <p>Create a Java program for a simple chatting application using threads. It should include a client-server architecture where both client and server can send and receive messages in real-time.</p>
+    
+
+    <div class="code">
+        <h3>Code:</h3>
+
+        <h4>Server Program (ChatServer.java):</h4>
+        <pre>
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+public class ChatServer {
+    private static final int PORT = 1234;
+    private static Set<PrintWriter> clientWriters = new HashSet<>();
+
+    public static void main(String[] args) {
+        System.out.println("Chat Server started...");
+        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+            while (true) {
+                new ClientHandler(serverSocket.accept()).start(); // Accept client connection and create a new thread for each client
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Broadcast messages to all clients
+    private static void broadcast(String message) {
+        for (PrintWriter writer : clientWriters) {
+            writer.println(message);
+        }
+    }
+
+    // Handle each client connection
+    private static class ClientHandler extends Thread {
+        private Socket socket;
+        private PrintWriter out;
+        private BufferedReader in;
+
+        public ClientHandler(Socket socket) {
+            this.socket = socket;
+        }
+
+        public void run() {
+            try {
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                out = new PrintWriter(socket.getOutputStream(), true);
+
+                // Add this client to the set of writers
+                synchronized (clientWriters) {
+                    clientWriters.add(out);
+                }
+
+                String message;
+                while ((message = in.readLine()) != null) {
+                    System.out.println("Received: " + message);
+                    broadcast(message);  // Broadcast the received message to all clients
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                synchronized (clientWriters) {
+                    clientWriters.remove(out); // Remove this client from the set when they disconnect
+                }
+            }
+        }
+    }
+}
+        </pre>
+
+        <h4>Client Program (ChatClient.java):</h4>
+        <pre>
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+public class ChatClient {
+    private static final String SERVER_ADDRESS = "localhost";
+    private static final int SERVER_PORT = 1234;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        try (Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT)) {
+            // Create input and output streams for communication
+            BufferedReader serverInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter serverOutput = new PrintWriter(socket.getOutputStream(), true);
+            
+            // Start a thread to listen for incoming messages
+            new Thread(new IncomingMessageListener(serverInput)).start();
+
+            System.out.println("Connected to chat server. Type your messages:");
+
+            // Read user input from the console and send it to the server
+            String message;
+            while ((message = scanner.nextLine()) != null) {
+                serverOutput.println(message);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Listener thread to handle incoming messages from the server
+    private static class IncomingMessageListener implements Runnable {
+        private BufferedReader serverInput;
+
+        public IncomingMessageListener(BufferedReader serverInput) {
+            this.serverInput = serverInput;
+        }
+
+        @Override
+        public void run() {
+            try {
+                String message;
+                while ((message = serverInput.readLine()) != null) {
+                    System.out.println(message); // Print incoming messages to the console
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+        </pre>
+    </div>
+
+    <div class="output">
+        <h3>Output:</h3>
+        <h4>Server Output:</h4>
+        <pre>
+Chat Server started...
+        </pre>
+
+        <h4>Client Output (Client 1):</h4>
+        <pre>
+Connected to chat server. Type your messages:
+Hello, everyone!
+        </pre>
+
+        <h4>Client Output (Client 2):</h4>
+        <pre>
+Connected to chat server. Type your messages:
+Hi there, how's it going?
+        </pre>
+
+        <h4>Server Broadcast to Clients:</h4>
+        <pre>
+Hello, everyone!
+Hi there, how's it going?
+        </pre>
+    </div>
+</div>
+</div>
+
+
+<div class="question">
+    <h2>8. Write a program to perform banking operations using threads.</h2>
+  
+  
+  <div class="code">
+    <h3>Java Code:</h3>
+    <pre>
+      <code>
+        import java.util.concurrent.locks.Lock;
+        import java.util.concurrent.locks.ReentrantLock;
+  
+        // BankAccount class
+        class BankAccount {
+            private double balance;
+            private final Lock lock = new ReentrantLock();
+  
+            // Constructor to initialize the account with a balance
+            public BankAccount(double balance) {
+                this.balance = balance;
+            }
+  
+            // Deposit method to add money to the account
+            public void deposit(double amount) {
+                lock.lock(); // Acquire lock
+                try {
+                    if (amount > 0) {
+                        balance += amount;
+                        System.out.println("Deposited: " + amount + ", Current Balance: " + balance);
+                    } else {
+                        System.out.println("Deposit amount must be positive.");
+                    }
+                } finally {
+                    lock.unlock(); // Release lock
+                }
+            }
+  
+            // Withdraw method to subtract money from the account
+            public void withdraw(double amount) {
+                lock.lock(); // Acquire lock
+                try {
+                    if (amount > 0 && balance >= amount) {
+                        balance -= amount;
+                        System.out.println("Withdrew: " + amount + ", Current Balance: " + balance);
+                    } else if (amount > balance) {
+                        System.out.println("Insufficient funds for withdrawal.");
+                    } else {
+                        System.out.println("Withdraw amount must be positive.");
+                    }
+                } finally {
+                    lock.unlock(); // Release lock
+                }
+            }
+  
+            // Method to get the current balance
+            public double getBalance() {
+                lock.lock(); // Acquire lock
+                try {
+                    return balance;
+                } finally {
+                    lock.unlock(); // Release lock
+                }
+            }
+        }
+  
+        // BankOperations class (extends Thread) to handle different banking operations concurrently
+        class BankOperations extends Thread {
+            private final BankAccount account;
+            private final String operation;
+            private final double amount;
+  
+            public BankOperations(BankAccount account, String operation, double amount) {
+                this.account = account;
+                this.operation = operation;
+                this.amount = amount;
+            }
+  
+            @Override
+            public void run() {
+                switch (operation.toLowerCase()) {
+                    case "deposit":
+                        account.deposit(amount);
+                        break;
+                    case "withdraw":
+                        account.withdraw(amount);
+                        break;
+                    case "balance":
+                        System.out.println("Current Balance: " + account.getBalance());
+                        break;
+                    default:
+                        System.out.println("Invalid operation.");
+                }
+            }
+        }
+  
+        // Main class
+        public class BankingApplication {
+            public static void main(String[] args) {
+                // Create a bank account with an initial balance of 5000
+                BankAccount account = new BankAccount(5000);
+  
+                // Create multiple threads to perform banking operations concurrently
+                BankOperations depositThread1 = new BankOperations(account, "deposit", 1000);
+                BankOperations withdrawThread1 = new BankOperations(account, "withdraw", 500);
+                BankOperations balanceThread = new BankOperations(account, "balance", 0);
+                BankOperations depositThread2 = new BankOperations(account, "deposit", 2000);
+                BankOperations withdrawThread2 = new BankOperations(account, "withdraw", 4000);
+  
+                // Start the threads
+                depositThread1.start();
+                withdrawThread1.start();
+                balanceThread.start();
+                depositThread2.start();
+                withdrawThread2.start();
+  
+                // Wait for all threads to complete
+                try {
+                    depositThread1.join();
+                    withdrawThread1.join();
+                    balanceThread.join();
+                    depositThread2.join();
+                    withdrawThread2.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+      </code>
+    </pre>
+  </div>
+  
+  <div class="output">
+    <h3>Output:</h3>
+    <pre>
+      Deposited: 1000.0, Current Balance: 6000.0
+      Withdrew: 500.0, Current Balance: 5500.0
+      Current Balance: 5500.0
+      Deposited: 2000.0, Current Balance: 7500.0
+      Withdrew: 4000.0, Current Balance: 3500.0
+    </pre>
+  </div>
+</div>
+  
+  <div class="question">
+    <h2>9. Inter-thread Communication Example</h2>
+    <strong>Question:</strong>
+    Write a program to demonstrate inter-thread communication in Java where a producer thread produces data and a consumer thread consumes it. The producer waits if the buffer is full, and the consumer waits if the buffer is empty. The communication is handled using the `wait()` and `notify()` methods in Java.
+  
+    <pre>
+  class Buffer {
+      private int data;
+      private boolean available = false;
+  
+      public synchronized void produce(int data) throws InterruptedException {
+          while (available) {
+              wait(); 
+          }
+          this.data = data;
+          System.out.println("Produced: " + data);
+          available = true;
+          notify(); 
+      }
+  
+      public synchronized void consume() throws InterruptedException {
+          while (!available) {
+              wait();
+          }
+          System.out.println("Consumed: " + data);
+          available = false;
+          notify(); 
+      }
+  }
+  
+  class Producer extends Thread {
+      private Buffer buffer;
+  
+      public Producer(Buffer buffer) {
+          this.buffer = buffer;
+      }
+  
+      @Override
+      public void run() {
+          try {
+              for (int i = 1; i <= 5; i++) {
+                  buffer.produce(i);
+                  Thread.sleep(1000); 
+              }
+          } catch (InterruptedException e) {
+              e.printStackTrace();
+          }
+      }
+  }
+  
+  class Consumer extends Thread {
+      private Buffer buffer;
+  
+      public Consumer(Buffer buffer) {
+          this.buffer = buffer;
+      }
+  
+      @Override
+      public void run() {
+          try {
+              for (int i = 1; i <= 5; i++) {
+                  buffer.consume();
+                  Thread.sleep(1500); 
+              }
+          } catch (InterruptedException e) {
+              e.printStackTrace();
+          }
+      }
+  }
+  
+  public class InterThreadCommunicationExample {
+      public static void main(String[] args) {
+          Buffer buffer = new Buffer(); 
+  
+          Producer producer = new Producer(buffer);
+          Consumer consumer = new Consumer(buffer);
+  
+          producer.start();
+          consumer.start();
+      }
+  }
+    </pre>
+    
+    <strong>Sample Output:</strong>
+    Produced: 1<br>
+    Consumed: 1<br>
+    Produced: 2<br>
+    Produced: 3<br>
+    Consumed: 2<br>
+    Consumed: 3<br>
+    Produced: 4<br>
+    Consumed: 4<br>
+    Produced: 5<br>
+    Consumed: 5
+  </div>
+  
+
+</body>
+</html>
