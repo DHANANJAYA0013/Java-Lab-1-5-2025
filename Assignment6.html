@@ -130,183 +130,198 @@
 
     <strong>Java Code:</strong>
     <pre><code>
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    designation VARCHAR(100) NOT NULL,
+    salary DOUBLE NOT NULL,
+    da DOUBLE NOT NULL,
+    hra DOUBLE NOT NULL,
+    net_salary DOUBLE NOT NULL
+);
+
+
+
 import java.sql.*;
 import java.util.Scanner;
 
 public class EmployeeManagementSystem {
-    static final String DB_URL = "jdbc:mysql://localhost:3306/EMS";
-    static final String USER = "root"; // Replace with your DB username
-    static final String PASS = "password"; // Replace with your DB password
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS)) {
-            while (true) {
-                System.out.println("\n===== Employee Management System =====");
-                System.out.println("1. Add Employee");
-                System.out.println("2. Update Employee");
-                System.out.println("3. Generate Employee Report");
-                System.out.println("4. Search Employee by ID");
-                System.out.println("5. Exit");
-                System.out.print("Enter your choice: ");
-                int choice = sc.nextInt();
-                sc.nextLine(); // consume newline
+    Connection conn;
+    Scanner sc = new Scanner(System.in);
 
-                switch (choice) {
-                    case 1:
-                        String ans = "yes";
-                        while (ans.equalsIgnoreCase("yes")) {
-                            System.out.print("Enter Name: ");
-                            String name = sc.nextLine();
-                            System.out.print("Enter Designation: ");
-                            String designation = sc.nextLine();
-                            System.out.print("Enter Salary: ");
-                            double salary = sc.nextDouble();
-                            sc.nextLine();
-
-                            addEmployee(conn, name, designation, salary);
-
-                            System.out.print("Add another employee? (yes/no): ");
-                            ans = sc.nextLine();
-                        }
-                        break;
-
-                    case 2:
-                        System.out.print("Enter Employee ID to update: ");
-                        int id = sc.nextInt();
-                        sc.nextLine();
-                        System.out.print("Enter New Name: ");
-                        String name = sc.nextLine();
-                        System.out.print("Enter New Designation: ");
-                        String designation = sc.nextLine();
-                        System.out.print("Enter New Salary: ");
-                        double salary = sc.nextDouble();
-                        sc.nextLine();
-                        updateEmployee(conn, id, name, designation, salary);
-                        break;
-
-                    case 3:
-                        generateEmployeeReport(conn);
-                        break;
-
-                    case 4:
-                        System.out.print("Enter Employee ID to search: ");
-                        int empId = sc.nextInt();
-                        sc.nextLine();
-                        showEmployeeById(conn, empId, sc);
-                        break;
-
-                    case 5:
-                        System.out.println("Exiting EMS. Goodbye!");
-                        return;
-
-                    default:
-                        System.out.println("Invalid choice.");
-                }
-            }
+    public EmployeeManagementSystem() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/emsdb", "root", "yourpassword"
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void addEmployee(Connection conn, String name, String designation, double salary) throws SQLException {
-        double da = 0.1 * salary;
-        double hra = 0.2 * salary;
-        double net = salary + da + hra;
+    // Method to add employee
+    public void addEmployee(String name, String designation, double salary) {
+        try {
+            double da = 0.1 * salary; // 10% DA
+            double hra = 0.15 * salary; // 15% HRA
+            double netSalary = salary + da + hra;
+            
+            String sql = "INSERT INTO employees (name, designation, salary, da, hra, net_salary) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, name);
+            pstmt.setString(2, designation);
+            pstmt.setDouble(3, salary);
+            pstmt.setDouble(4, da);
+            pstmt.setDouble(5, hra);
+            pstmt.setDouble(6, netSalary);
 
-        String sql = "INSERT INTO employees (name, designation, salary, da, hra, net_salary) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement pst = conn.prepareStatement(sql)) {
-            pst.setString(1, name);
-            pst.setString(2, designation);
-            pst.setDouble(3, salary);
-            pst.setDouble(4, da);
-            pst.setDouble(5, hra);
-            pst.setDouble(6, net);
-            int rows = pst.executeUpdate();
+            int rows = pstmt.executeUpdate();
             if (rows > 0) {
                 System.out.println("Employee added successfully.");
+            } else {
+                System.out.println("Failed to add employee.");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public static void updateEmployee(Connection conn, int id, String name, String designation, double salary) throws SQLException {
-        double da = 0.1 * salary;
-        double hra = 0.2 * salary;
-        double net = salary + da + hra;
+    // Method to update employee
+    public void updateEmployee(int id, String name, String designation, double salary) {
+        try {
+            double da = 0.1 * salary;
+            double hra = 0.15 * salary;
+            double netSalary = salary + da + hra;
 
-        String sql = "UPDATE employees SET name = ?, designation = ?, salary = ?, da = ?, hra = ?, net_salary = ? WHERE id = ?";
-        try (PreparedStatement pst = conn.prepareStatement(sql)) {
-            pst.setString(1, name);
-            pst.setString(2, designation);
-            pst.setDouble(3, salary);
-            pst.setDouble(4, da);
-            pst.setDouble(5, hra);
-            pst.setDouble(6, net);
-            pst.setInt(7, id);
-            int rows = pst.executeUpdate();
+            String sql = "UPDATE employees SET name=?, designation=?, salary=?, da=?, hra=?, net_salary=? WHERE id=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, name);
+            pstmt.setString(2, designation);
+            pstmt.setDouble(3, salary);
+            pstmt.setDouble(4, da);
+            pstmt.setDouble(5, hra);
+            pstmt.setDouble(6, netSalary);
+            pstmt.setInt(7, id);
+
+            int rows = pstmt.executeUpdate();
             if (rows > 0) {
                 System.out.println("Employee updated successfully.");
             } else {
                 System.out.println("Employee not found.");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public static void generateEmployeeReport(Connection conn) throws SQLException {
-        String sql = "SELECT * FROM employees";
-        try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
+    // Method to generate report
+    public void generateEmployeeReport() {
+        try {
+            String sql = "SELECT * FROM employees";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            System.out.println("\nEmployee Report:");
             System.out.printf("%-5s %-20s %-20s %-10s %-10s %-10s %-10s%n",
-                    "ID", "Name", "Designation", "Salary", "DA", "HRA", "Net");
+                              "ID", "Name", "Designation", "Salary", "DA", "HRA", "Net Salary");
+
             while (rs.next()) {
                 System.out.printf("%-5d %-20s %-20s %-10.2f %-10.2f %-10.2f %-10.2f%n",
-                        rs.getInt("id"), rs.getString("name"), rs.getString("designation"),
-                        rs.getDouble("salary"), rs.getDouble("da"), rs.getDouble("hra"), rs.getDouble("net_salary"));
+                                  rs.getInt("id"),
+                                  rs.getString("name"),
+                                  rs.getString("designation"),
+                                  rs.getDouble("salary"),
+                                  rs.getDouble("da"),
+                                  rs.getDouble("hra"),
+                                  rs.getDouble("net_salary"));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public static void showEmployeeById(Connection conn, int id, Scanner sc) throws SQLException {
-        String sql = "SELECT * FROM employees WHERE id = ?";
-        try (PreparedStatement pst = conn.prepareStatement(sql)) {
-            pst.setInt(1, id);
-            try (ResultSet rs = pst.executeQuery()) {
-                if (rs.next()) {
-                    System.out.println("Employee Details:");
-                    System.out.println("ID: " + rs.getInt("id"));
-                    System.out.println("Name: " + rs.getString("name"));
-                    System.out.println("Designation: " + rs.getString("designation"));
-                    System.out.println("Salary: " + rs.getDouble("salary"));
-                    System.out.println("DA: " + rs.getDouble("da"));
-                    System.out.println("HRA: " + rs.getDouble("hra"));
-                    System.out.println("Net Salary: " + rs.getDouble("net_salary"));
+    // Method to find and display a specific employee
+    public void findEmployeeById(int id) {
+        try {
+            String sql = "SELECT * FROM employees WHERE id=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
 
-                    System.out.print("Do you want to delete this record? (yes/no): ");
-                    String confirm = sc.nextLine();
-                    if (confirm.equalsIgnoreCase("yes")) {
-                        deleteEmployeeById(conn, id);
-                    }
-                } else {
-                    System.out.println("Employee not found.");
+            if (rs.next()) {
+                System.out.println("\nEmployee Found:");
+                System.out.println("ID: " + rs.getInt("id"));
+                System.out.println("Name: " + rs.getString("name"));
+                System.out.println("Designation: " + rs.getString("designation"));
+                System.out.println("Salary: " + rs.getDouble("salary"));
+                System.out.println("DA: " + rs.getDouble("da"));
+                System.out.println("HRA: " + rs.getDouble("hra"));
+                System.out.println("Net Salary: " + rs.getDouble("net_salary"));
+
+                System.out.print("\nDo you want to delete this employee? (yes/no): ");
+                String choice = sc.next();
+
+                if (choice.equalsIgnoreCase("yes")) {
+                    deleteEmployee(id);
                 }
+            } else {
+                System.out.println("Employee not found.");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public static void deleteEmployeeById(Connection conn, int id) throws SQLException {
-        String sql = "DELETE FROM employees WHERE id = ?";
-        try (PreparedStatement pst = conn.prepareStatement(sql)) {
-            pst.setInt(1, id);
-            int rows = pst.executeUpdate();
+    // Method to delete an employee
+    public void deleteEmployee(int id) {
+        try {
+            String sql = "DELETE FROM employees WHERE id=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            int rows = pstmt.executeUpdate();
+
             if (rows > 0) {
                 System.out.println("Employee deleted successfully.");
             } else {
-                System.out.println("Deletion failed.");
+                System.out.println("Failed to delete employee.");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
-}
-    </code></pre>
+
+    // Main method
+    public static void main(String[] args) {
+        EmployeeManagementSystem ems = new EmployeeManagementSystem();
+        Scanner sc = new Scanner(System.in);
+
+        String ans;
+        do {
+            System.out.print("\nEnter Employee Name: ");
+            String name = sc.nextLine();
+            System.out.print("Enter Designation: ");
+            String designation = sc.nextLine();
+            System.out.print("Enter Salary: ");
+            double salary = sc.nextDouble();
+            sc.nextLine(); // consume leftover newline
+
+            ems.addEmployee(name, designation, salary);
+
+            System.out.print("\nDo you want to add another employee? (yes/no): ");
+            ans = sc.nextLine();
+        } while (ans.equalsIgnoreCase("yes"));
+
+        ems.generateEmployeeReport();
+
+        System.out.print("\nEnter Employee ID to view details: ");
+        int id = sc.nextInt();
+        ems.findEmployeeById(id);
+
+        sc.close();
+    }
+}   </code></pre>
   </div>
 
   <h2>Sample Output</h2>
